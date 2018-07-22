@@ -14,7 +14,7 @@ public class AuthenticationTest {
 
     @Before
     public void addUser() {
-        realm.addAccount("Mark", "123456");
+        realm.addAccount("Mark", "123456", "admin", "user");
     }
 
     @Test
@@ -31,10 +31,7 @@ public class AuthenticationTest {
         UsernamePasswordToken token = new UsernamePasswordToken("Mark", "123456");
         subject.login(token);
 
-        System.out.println("isAuthenticated: " + subject.isAuthenticated());
-
-        subject.logout();
-
-        System.out.println("isAuthenticated: " + subject.isAuthenticated());
+        subject.checkRoles("admin", "user");
+//        System.out.println("isAuthenticated: " + subject.isAuthenticated());
     }
 }
