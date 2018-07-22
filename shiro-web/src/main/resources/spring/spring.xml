@@ -9,6 +9,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <import resource="spring-dao.xml"/>
+    <import resource="spring-redis.xml"/>
     <context:component-scan base-package="com.immoc"/>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -41,6 +42,7 @@
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="realm"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
     <bean id="realm" class="com.immoc.shiro.realm.CustomRealm">
@@ -51,4 +53,10 @@
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="1"/>
     </bean>
+
+    <!--Shiro会话管理-->
+    <bean id="sessionManager" class="com.immoc.session.CustomSessionManager">
+        <property name="sessionDAO" ref="sessionDao"/>
+    </bean>
+    <bean id="sessionDao" class="com.immoc.session.RedisSessionDao"/>
 </beans>
